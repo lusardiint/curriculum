@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Impactante</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --border-color: #222;
+            /* Tiempos de transición */
+            --trans-move: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            /* Colores */
+            --color-1: #3498db;
+            --color-2: #e74c3c;
+            --color-3: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            overflow: hidden;
+font-family: 'Archivo Black', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            background-color: var(--border-color);
+            gap: 1px;
+        }
+
+        .column {
+            flex: 1;
+            height: 100%;
+            background-color: #1a1a1a;
+            /* Transición de movimiento sí, de color NO para el click */
+            transition: flex var(--trans-move), opacity var(--trans-move);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Hover: Transición de color suave solo al pasar el mouse */
+        .column:not(.active) {
+            transition: flex var(--trans-move), background-color 0.3s ease;
+        }
+
+        .column:nth-child(1):hover { background-color: var(--color-1); }
+        .column:nth-child(2):hover { background-color: var(--color-2); }
+        .column:nth-child(3):hover { background-color: var(--color-3); }
+
+        /* Títulos configurables */
+        .column h2 {
+            font-size: 2.5rem; /* Más grande */
+            font-weight: 800;  /* Más grueso */
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            position: relative;
+            text-align: center;
+        }
+
+        .column h2::before {
+            content: "CLICK";
+            position: absolute;
+            left: 0; right: 0;
+            opacity: 1;
+            transition: 0.2s;
+        }
+
+        .column h2 span {
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        .column:hover h2 span, 
+        .column.active h2 span {
+            opacity: 1;
+        }
+
+        .column:hover h2::before, 
+        .column.active h2::before {
+            opacity: 0;
+        }
+
+        /* ESTADO ACTIVO (CLICK) */
+        .column.active {
+            flex: 8;
+            background-color: #111 !important; /* Cambio instantáneo de color */
+            transition: flex var(--trans-move); /* Sin transición de color aquí */
+        }
+
+        /* Texto mucho más grande dentro de secciones abiertas */
+        .column.active h2 {
+            font-size: 5rem; /* Tamaño masivo para sección abierta */
+            margin-bottom: 20px;
+        }
+
+        .column.active:nth-child(1) h2 { color: var(--color-1); }
+        .column.active:nth-child(2) h2 { color: var(--color-2); }
+        .column.active:nth-child(3) h2 { color: var(--color-3); }
+
+        .column.inactive {
+            flex: 0.3;
+            opacity: 0.2;
+        }
+
+        /* Contenido */
+.content {
+    width: 95%;            /* Ocupa casi todo el ancho disponible */
+    max-width: 1200px;     /* Límite máximo para que no se vea infinito en monitores 4K */
+    margin: 40px auto;     /* El 'auto' a los lados es lo que lo centra */
+    opacity: 0;
+    transform: translateY(30px);
+    display: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+        .column.active .content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+.content p {
+    text-align: center;
+    font-size: 5.8rem;      /* Aumentado de 1.4rem a 1.8rem */
+    font-weight: 700;       /* Mucho más grueso */
+    line-height: 1.3;       /* Líneas más juntas para un look más moderno */
+    color: #bababa;            /* Blanco puro para más contraste */
+    margin-bottom: 40px;
+    text-wrap: balance;     /* Mejora la distribución de las líneas */
+}
+
+/* Para resaltar aún más las negritas que pusiste */
+.content p strong {
+    font-weight: 900;       /* Grosor máximo para las palabras clave */
+    color: #fff;
+}
+
+        .image-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .image-group img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        /* Scrollbar oculto */
+        .column::-webkit-scrollbar { width: 0; }
+
+
+/* ... (mantén todo tu CSS anterior) ... */
+
+/* ADAPTACIÓN PARA MÓVIL */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Cambia de horizontal a vertical */
+    }
+
+    .column {
+        width: 100%;
+        flex: 1; /* Todas miden lo mismo al inicio */
+        padding: 40px 15px;
+    }
+
+    /* Títulos un poco más pequeños para que no se corten en móviles */
+    .column h2 {
+        font-size: 1.8rem;
+    }
+
+    /* Estado expandido en móvil */
+    .column.active {
+        flex: 10; /* Se expande verticalmente */
+    }
+
+    .column.active h2 {
+        font-size: 3rem; /* Ajuste de tamaño masivo para pantallas pequeñas */
+        margin-top: 20px;
+    }
+
+    .column.inactive {
+        flex: 0.5; /* Las otras secciones se vuelven franjas delgadas */
+        min-height: 60px; /* Evita que desaparezcan del todo */
+    }
+
+    .image-group {
+        grid-template-columns: 1fr; /* Las imágenes se ponen una debajo de otra */
+    }
+
+    .image-group img {
+        height: 250px; /* Reducimos altura para no hacer el scroll infinito */
+    }
+}
+
+.contacto-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: center;
+        }
+
+        .contacto-item a {
+            text-decoration: none;
+            color: #fff !important;
+            font-size: 6.8rem; /* Texto grande */
+            font-weight: 800;
+            display: block;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+            height: 8rem; /* Altura fija para que no salte el contenido */
+        }
+
+        .contacto-item span {
+            display: block;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* El texto que se revela (email, numero, descargar) */
+        .contacto-item .reveal {
+            color: #fff; /* Color verde de contacto */
+            font-size: 6.7rem;
+        }
+
+        /* Animación de desplazamiento hacia arriba */
+        .contacto-item a:hover .label {
+            transform: translateY(-100%);
+        }
+
+        .contacto-item a:hover .reveal {
+            transform: translateY(-100%);
+        }
+
+        /* Ajuste para móvil en contacto */
+        @media (max-width: 768px) {
+            .contacto-item a {
+                font-size: 1.8rem;
+            }
+            .contacto-item .reveal {
+                font-size: 1.2rem;
+            }
+        }
+
+
+/* SOLO PARA MÓVIL */
+@media (max-width: 768px) {
+    /* Ajuste del texto de las secciones Qué sé hacer y Sobre Mí */
+    .content p {
+        font-size: 8vw !important; /* Escala con el ancho del móvil */
+        line-height: 1.2 !important;
+        font-weight: 800 !important;
+        word-break: break-word; /* Evita que palabras largas rompan el layout */
+        padding: 0 10px;
+    }
+
+    /* Ajuste de los títulos de contacto (CORREO, NÚMERO, CV) */
+    .contacto-item a {
+        font-size: 10vw !important; /* Tamaño masivo pero seguro */
+        height: auto !important;
+        line-height: 1.1 !important;
+        margin-bottom: 20px;
+    }
+
+    /* Ajuste de los datos revelados en contacto (el email, el número, etc) */
+    .contacto-item .reveal {
+        font-size: 5.5vw !important; /* Un poco más pequeño para que quepan emails largos */
+        font-weight: 700 !important;
+        white-space: nowrap; /* Intenta mantenerlo en una línea */
+    }
+
+    /* Ajuste del bloque de formación académica al final */
+    .content div[style*="text-align: center"] {
+        font-size: 4.5vw !important;
+        line-height: 1.4 !important;
+    }
+}
+
+/* Esto quita el color azul y el subrayado de todos los enlaces */
+a {
+    color: #36aeff;         /* Hereda el color del padre (blanco o gris) */
+    text-decoration: none;  /* Quita el subrayado feo */
+    outline: none;
+}
+
+/* Opcional: Si quieres que al pasar el mouse por un link normal 
+   dentro de un párrafo brille un poco */
+.content p a:hover {
+    color: #36aeff;
+    opacity: 0.8;
+}
+
+/* Específicamente para la sección de CONTACTO */
+.contacto-item a {
+    color: #bababa; /* Fuerza el blanco en los textos grandes */
+}
+
+/* El texto que se revela (email, número, etc.) sí mantendrá su color 
+   porque ya lo definimos en .reveal, pero asegúrate de que no tenga subrayado */
+.contacto-item .reveal {
+    text-decoration: none !important;
+}
+
+
+/* --- ESTILOS PARA IMAGEN INDIVIDUAL CENTRADA --- */
+
+.solo-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centrado horizontal absoluto */
+    margin: 60px 0;         /* Separación generosa con el texto de arriba y abajo */
+}
+
+.solo-image-container img {
+    /* Anchura adaptable: enorme en escritorio, segura en móvil */
+    width: clamp(300px, 60vw, 800px); 
+    
+    /* Altura fija para mantener la estética de "bloque" */
+    height: 500px;           
+    
+    /* Importante: ajusta la foto para que no se estire */
+    object-fit: cover;       
+    
+    /* Bordes sutiles como los de .image-group */
+    border-radius: 50px;      
+    
+    /* Opcional: un ligero brillo para que destaque sobre el fondo negro */
+    filter: brightness(1.1); 
+}
+
+/* Adaptación para Móvil */
+@media (max-width: 768px) {
+    .solo-image-container {
+        margin: 40px 0; /* Menos separación en móvil */
+        padding: 0 10px; /* Pequeño margen de seguridad a los lados */
+    }
+
+    .solo-image-container img {
+        width: 100%;      /* Ocupa todo el ancho disponible */
+        height: 350px;    /* Reducimos la altura en móvil */
+    }
+}
+
+
+.header-name {
+    position: fixed;
+    top: 25px;         /* Espacio desde arriba */
+    left: 25px;        /* Espacio desde la izquierda */
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.8rem; /* Un poco más pequeño para el look top-left */
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    z-index: 1000;     /* Por encima de todo */
+    pointer-events: none;
+    opacity: 0.7;      /* Un toque sutil */
+}
+
+/* Ajuste para móvil para que no se pegue demasiado al borde */
+@media (max-width: 768px) {
+    .header-name {
+        top: 15px;
+        left: 15px;
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+    }
+}
+/* --- CUADRÍCULA DE ICONOS BRUTALISTA CON NOMBRES --- */
+
+.icon-grid {
+    display: grid;
+    /* Cuadrícula adaptable automáticamente */
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+    gap: 40px;
+    width: 100%;
+    margin-top: 60px;
+    padding: 20px;
+    justify-items: center; /* Centrado horizontal */
+    align-items: start;    /* Alineación superior */
+}
+
+.icon-item {
+    display: flex;
+    flex-direction: column; /* Icono arriba, texto abajo */
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 120px;
+    transition: transform 0.3s ease;
+}
+
+/* Estilo del Icono (Imagen) */
+.icon-item img {
+border-radius: 20px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 12px; /* Espacio con el nombre */
+}
+
+/* Estilo del Nombre (Archivo Black) */
+.icon-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.75rem; /* Pequeño pero legible */
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.8;
+    letter-spacing: 1px;
+}
+
+/* --- ESTILOS EXCLUSIVOS PARA PC (Con Hover) --- */
+@media (min-width: 769px) {
+    /* Estado inicial monocromático */
+    .icon-item img {
+        filter: grayscale(100%) brightness(1.2); 
+        transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Estado Hover: Cobra vida con color */
+    .icon-item:hover img {
+        filter: grayscale(0%) brightness(1);
+        transform: scale(1.1); /* Efecto zoom sutil */
+    }
+
+    /* Nombre también se ilumina */
+    .icon-item:hover .icon-name {
+        opacity: 1;
+    }
+}
+
+/* --- ESTILOS EXCLUSIVOS PARA MÓVIL (Fijos a color, sin hover) --- */
+@media (max-width: 768px) {
+    .icon-grid {
+        /* Fuerza 3 columnas fijas en móvil */
+        grid-template-columns: repeat(3, 1fr) !important; 
+        gap: 20px;
+    }
+    
+    /* Imágenes siempre a color */
+    .icon-item img {
+        filter: grayscale(0%) brightness(1) !important;
+        transform: none !important; /* Elimina cualquier zoom */
+        max-width: 80px; /* Un poco más pequeños en móvil */
+    }
+
+    /* Nombres fijos y legibles */
+    .icon-name {
+        font-size: 0.65rem;
+        opacity: 1 !important;
+        line-height: 1.2;
+    }
+}
+    </style>
+</head>
+<body>
+
+<div class="header-name">Valentin Tumialan Lusardi</div>
+
+    <div class="container">
+
+    <div class="container">
+        <section class="column" onclick="activate(this)">
+<h2><span>QUÉ SÉ HACER</span></h2>
+            <div class="content">
+                <p>
+                    <em>1.</em> <strong>Comprensión</strong> avanzada del ruteo de <strong>señal</strong> tanto en entornos <strong>analógicos</strong> (patchbays, consolas) como <strong>digitales</strong>.
+                    <br><br>
+                    <em>2.</em> <strong>Capacidad</strong> para el montaje, conexionado y mantenimiento básico de sistemas de audio en <strong>estudio</strong> y <strong>directo</strong>.
+                    <br><br>
+                    <em>3.</em> <strong>Selección</strong> y <strong>colocación</strong> estratégica de <strong>microfonía</strong> según la fuente sonora (voces, acústicos, amplificadores) y la acústica de la sala.
+                    <br><br>
+                    <em>4.</em> <strong>Manejo</strong> de <strong>Pro Tools</strong> (edición, gestión de sesiones y ruteo interno) y <strong>Ableton Live & FL Studio</strong> para producción creativa y composición de ideas.
+                </p>
+
+<div class="icon-grid">
+    <div class="icon-item">
+        <img src="img/ico/ableton.png" alt="Ableton Live">
+        <span class="icon-name">Ableton Live</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/after_effects.png" alt="After Effects">
+        <span class="icon-name">After Effects</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/audition.png" alt="Adobe Audition">
+        <span class="icon-name">Adobe Audition</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/dolby.png" alt="Dolby Atmos">
+        <span class="icon-name">Dolby Atmos</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/fl_studio.png" alt="FL Studio">
+        <span class="icon-name">FL Studio</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/photoshop.png" alt="Photoshop">
+        <span class="icon-name">Photoshop</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/premiere.png" alt="Premiere Pro">
+        <span class="icon-name">Premiere Pro</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/protools.png" alt="Pro Tools">
+        <span class="icon-name">Pro Tools</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/resolve.png" alt="DaVinci Resolve">
+        <span class="icon-name">DaVinci Resolve</span>
+    </div>
+    <div class="icon-item">
+        <img src="img/ico/synth_icon.png" alt="Synth Hardware">
+        <span class="icon-name">Synth Hardware</span>
+    </div>
+</div>
+        </section>
+
+        <section class="column" onclick="activate(this)">
+<h2><span>SOBRE MI</span></h2>
+            <div class="content">
+                <p>
+                    Graduado en <strong>Bachiller</strong> <strong>Tecnológico</strong>, con honores en trabajo de investigación <strong> <em>“La Imperfección en la Producción musical” </em> </strong> <br> - Valentin Tumialan Lusardi 
+<br>
+<a href="https://serveiseducatius.xtec.cat/baixmaresme/treballs-de-recerca-presentacions-del-conferenciants/" target="_blank">
+        <span class="label">Link a conferencia gencat</span>
+    </a>
+
+                    <br><br>
+                    Soy estudiante de 1º de sonido en la <strong>EMAV</strong>, donde actualmente profesionalizo mi base técnica en flujo de señal, microfonía y diseño de instalaciones. Mi enfoque nace de una formación musical académica de <strong>Violín</strong> en <strong>conservatorio</strong>, evolucionando hacia una carrera activa como <strong>producer/beatmaker</strong>
+<br>
+<a href="https://www.tiktok.com/@lusardiint" target="_blank">
+        <span class="label">Link a proyecto personal</span>
+    </a>
+<br>
+<a href="https://lusardiint.github.io/portfolio/" target="_blank">
+        <span class="label">Link a pagina de proyecto</span>
+    </a>
+
+<div class="solo-image-container">
+<img src="./img/pic/Valentin_HomeStudio.png" alt="Picture">
+</div>
+
+               <p>
+Aficionado a la música y sonido, esta <strong>dualidad</strong> me permite entender el audio desde la <strong>física</strong> y la ingeniería, pero también desde la <strong>psicología</strong> del artista en el estudio.
+                </p>
+
+<div class="solo-image-container">
+    <img src="./img/pic/Valentin_GranCanaria.png" alt="Picture">
+</div>
+        </section>
+
+<section class="column" onclick="activate(this)">
+            <h2><span>CONTACTO</span></h2>
+            <div class="content">
+                <div class="contacto-wrapper">
+                    
+                    <div class="contacto-item">
+                        <a href="mailto:valentumlus@gmail.com">
+                            <span class="label">CORREO</span>
+                            <span class="reveal">valentumlus@gmail.com</span>
+                        </a>
+                    </div>
+
+                    <div class="contacto-item">
+                        <a href="tel:+34625956982">
+                            <span class="label">TELÉFONO</span>
+                            <span class="reveal">+34 625 956 982</span>
+                        </a>
+                    </div>
+
+                    <div class="contacto-item">
+                        <a href="./pdf/CV.pdf" download="CV_Valentum">
+                            <span class="label">CURRICULUM</span>
+                            <span class="reveal">DESCARGAR</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function activate(element) {
+            const columns = document.querySelectorAll('.column');
+            
+            if (element.classList.contains('active')) return;
+
+            columns.forEach(col => {
+                col.classList.remove('active');
+                col.classList.add('inactive');
+            });
+
+            element.classList.remove('inactive');
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
